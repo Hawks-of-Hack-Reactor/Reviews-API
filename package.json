@@ -1,0 +1,40 @@
+{
+  "name": "reviews-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mongodb_mock.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server-dev": "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hawks-of-Hack-Reactor/Reviews-API.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hawks-of-Hack-Reactor/Reviews-API/issues"
+  },
+  "homepage": "https://github.com/Hawks-of-Hack-Reactor/Reviews-API#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.27.1",
+    "@typescript-eslint/parser": "^5.27.1",
+    "eslint": "^8.17.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-node": "^4.1.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.30.0",
+    "nodemon": "^2.0.16",
+    "prettier": "^2.6.2"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.3.6"
+  }
+}
