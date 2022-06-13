@@ -1,11 +1,12 @@
+/* eslint-disable no-underscore-dangle */
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-// const path = require('path');
 
-// const csvtojson = require('csvtojson');
-
-const { getReviews, saveReview } = require('../database/index');
+const {
+  createReview, getReviewsByProductId, getReviewsMetaByProductId,
+  markHelpfulByReviewId, reportReviewByReviewId,
+} = require('./controllers/reviews');
 
 const app = express();
 
@@ -14,20 +15,32 @@ app.use(express.json());
 // Enable CORS
 app.use(cors());
 
+// POST routes
+app.post('/reviews', (req, res) => {
+  createReview(req, res);
+});
+
+// GET routes
 app.get('/', (req, res) => {
   res.send('<h1 style="text-align: center">Hello There 😏😏😏</h1>');
 });
 
-// app.get('/ETL', (req, res) => {
-//   csvtojson()
-//     .fromFile(path.join(__dirname, '../../SDC_csv/reviews.csv'))
-//     .then((csvData) => {
-//       console.log('done');
-//       console.log(csvData);
-//     });
+app.get('/reviews', (req, res) => {
+  getReviewsByProductId(req, res);
+});
 
-//   res.end();
-// });
+app.get('/reviews/meta', (req, res) => {
+  getReviewsMetaByProductId(req, res);
+});
+
+// PUT routes
+app.put('/reviews/:reviewId/helpful', (req, res) => {
+  markHelpfulByReviewId(req, res);
+});
+
+app.put('/reviews/:reviewId/report', (req, res) => {
+  reportReviewByReviewId(req, res);
+});
 
 const port = process.env.PORT || 1228;
 app.listen(port, (err) => {

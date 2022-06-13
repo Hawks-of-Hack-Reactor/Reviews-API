@@ -2,11 +2,8 @@
 /* eslint-disable array-callback-return */
 // require('dotenv').config();
 const mongoose = require('mongoose');
-const { MONGODB_URI } = require('../config');
-
-process.env.MONGODB_URI = MONGODB_URI;
-mongoose.connect(process.env.MONGODB_URI, {
-});
+// eslint-disable-next-line no-unused-vars
+const { dbConnection } = require('./dbConnection');
 
 const photosSchema = new mongoose.Schema({
   id: {
@@ -57,6 +54,7 @@ const saveReview = (reviewJSON) => new Promise((resolve, reject) => {
 
 // Many
 const saveReviews = (reviewsArray) => new Promise((resolve, reject) => {
+  console.log();
   Review.insertMany(reviewsArray, (err, result) => {
     if (err) {
       reject(err);
@@ -66,8 +64,20 @@ const saveReviews = (reviewsArray) => new Promise((resolve, reject) => {
   });
 });
 
-const getReviews = () => new Promise((resolve, reject) => {
-  Review.find((err, results) => {
+const getReviews = (productId) => new Promise((resolve, reject) => {
+  Review.find({ product_id: productId }, { _id: 0, __v: 0 })
+    .lean()
+    .exec((err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+});
+
+const getReviewsDistinct = (field) => new Promise((resolve, reject) => {
+  Review.find().distinct(field, (err, results) => {
     if (err) {
       reject(err);
     } else {
@@ -79,7 +89,35 @@ const getReviews = () => new Promise((resolve, reject) => {
 const updateReviewPhotos = (review_id, reviewPhotosArray) => new Promise((resolve, reject) => {
   Review.findOneAndUpdate(
     { id: review_id },
-    { $push: { photos: { $each: reviewPhotosArray } } },
+    { $set: { photos: reviewPhotosArray } },
+    (err) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    },
+  );
+});
+
+const markHelpful = (reviewId) => new Promise((resolve, reject) => {
+  Review.findOneAndUpdate(
+    { id: reviewId },
+    { $inc: { helpfulness: 1 } },
+    (err) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    },
+  );
+});
+
+const reportReview = (reviewId) => new Promise((resolve, reject) => {
+  Review.findOneAndUpdate(
+    { id: reviewId },
+    { $set: { reported: true } },
     (err) => {
       if (err) {
         reject(err);
@@ -91,5 +129,12 @@ const updateReviewPhotos = (review_id, reviewPhotosArray) => new Promise((resolv
 });
 
 module.exports = {
-  getReviews, saveReview, saveReviews, updateReviewPhotos,
+  getReviews,
+  saveReview,
+  saveReviews,
+  updateReviewPhotos,
+  markHelpful,
+  reportReview,
+  getReviewsDistinct,
+  Review,
 };

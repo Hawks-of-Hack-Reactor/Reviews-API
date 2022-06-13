@@ -3,3 +3,7 @@ node_modules
 config.js
 .env
 .vscode
+reviewsData.json
+reviewsData.js
+unique_product_ids.json
+unique_product_ids.js
