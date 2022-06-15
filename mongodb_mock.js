@@ -1,8 +1,3 @@
-
-
-
-
-
 {
   "product": {
     type: Number,

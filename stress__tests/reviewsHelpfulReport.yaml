@@ -1,0 +1,14 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 10
+      arrivalRate: 10
+      maxVusers: 100
+scenarios:
+  - flow:
+    - put:
+        url: "/reviews/1655157187123/report"
+    - put:
+        url: "/reviews/1655157187123/report"
+    - put:
+        url: "/reviews/1655157187123/helpful"

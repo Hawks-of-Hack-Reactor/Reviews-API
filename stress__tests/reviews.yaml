@@ -1,0 +1,20 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 10
+      arrivalRate: 100
+      maxVusers: 1000
+scenarios:
+  - flow:
+    - get:
+        url: "/reviews/meta"
+        qs:
+          product_id: 25
+    - get:
+        url: "/reviews/meta"
+        qs:
+          product_id: 100000
+    - get:
+        url: "/reviews/meta"
+        qs:
+          product_id: 37312
