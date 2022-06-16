@@ -25,6 +25,13 @@ app.get('/', (req, res) => {
   res.send('<h1 style="text-align: center">Hello There 😏😏😏</h1>');
 });
 
+/* Loader test */
+app.get('/loaderio-30a54093308eb393cc092214eceb7781', (req, res) => {
+  fs.readFile(path.join(__dirname, 'loaderio-30a54093308eb393cc092214eceb7781.txt'), (err, data) => {
+    err ? res.send(err) : res.send(data);
+  });
+});
+
 app.get('/reviews', (req, res) => {
   getReviewsByProductId(req, res);
 });
